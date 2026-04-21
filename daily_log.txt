@@ -1,0 +1,133 @@
+package ui;
+
+import model.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+public class ProfilePanel extends JPanel {
+    private MainFrame parent;
+
+    private JTextField nameField = new JTextField(20);
+    private JSpinner ageSpinner = new JSpinner(new SpinnerNumberModel(25, 0, 150, 1));
+    private JComboBox<String> genderBox = new JComboBox<>(new String[]{"Male", "Female"});
+    private JFormattedTextField weightField = new JFormattedTextField();
+    private JFormattedTextField heightField = new JFormattedTextField();
+    private JSpinner activityDaysSpinner = new JSpinner(new SpinnerNumberModel(3, 0, 7, 1));
+
+    private JTextArea outputArea = new JTextArea(6, 40);
+
+    public ProfilePanel(MainFrame parent) {
+        this.parent = parent;
+        setLayout(new BorderLayout());
+
+        JPanel form = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(4, 4, 4, 4);
+        c.anchor = GridBagConstraints.WEST;
+
+        c.gridx = 0;
+        c.gridy = 0;
+        form.add(new JLabel("Name:"), c);
+        c.gridx = 1;
+        form.add(nameField, c);
+
+        c.gridx = 0;
+        c.gridy++;
+        form.add(new JLabel("Age:"), c);
+        c.gridx = 1;
+        form.add(ageSpinner, c);
+
+        c.gridx = 0;
+        c.gridy++;
+        form.add(new JLabel("Gender:"), c);
+        c.gridx = 1;
+        form.add(genderBox, c);
+
+        c.gridx = 0;
+        c.gridy++;
+        form.add(new JLabel("Weight (kg):"), c);
+        c.gridx = 1;
+        weightField.setColumns(10);
+        form.add(weightField, c);
+
+        c.gridx = 0;
+        c.gridy++;
+        form.add(new JLabel("Height (m or cm):"), c);
+        c.gridx = 1;
+        heightField.setColumns(10);
+        form.add(heightField, c);
+
+        c.gridx = 0;
+        c.gridy++;
+        form.add(new JLabel("Activity days/week:"), c);
+        c.gridx = 1;
+        form.add(activityDaysSpinner, c);
+
+        JButton btnCreate = new JButton("Create/Update Profile");
+        btnCreate.addActionListener(this::onCreate);
+        c.gridx = 0;
+        c.gridy++;
+        c.gridwidth = 2;
+        form.add(btnCreate, c);
+
+        add(form, BorderLayout.NORTH);
+
+        outputArea.setEditable(false);
+        add(new JScrollPane(outputArea), BorderLayout.CENTER);
+    }
+
+    private void onCreate(ActionEvent ev) {
+        try {
+            String name = nameField.getText().trim();
+            int age = (Integer) ageSpinner.getValue();
+            String gender = (String) genderBox.getSelectedItem();
+            double weight = Double.parseDouble(weightField.getText());
+            double height = Double.parseDouble(heightField.getText());
+            // If user entered height in centimeters (e.g., 170), convert to meters
+            if (height > 3) height = height / 100.0;
+            if (weight <= 0 || height <= 0) throw new IllegalArgumentException("Weight and height must be positive numbers.");
+            int days = (Integer) activityDaysSpinner.getValue();
+
+            // ask for goal
+            String targetStr = JOptionPane.showInputDialog(this, "Enter target weight (kg):");
+            if (targetStr == null) return;
+            double targetW = Double.parseDouble(targetStr);
+            String weeksStr = JOptionPane.showInputDialog(this, "Enter duration in weeks:");
+            if (weeksStr == null) return;
+            int weeks = Integer.parseInt(weeksStr);
+
+            Goal goal = new Goal(targetW, weeks);
+            User user = new User(name, age, gender, weight, height, goal, days);
+            parent.setCurrentUser(user);
+            // persist profile
+            // DailyLogFileManager.saveUser(user);
+
+            double BMR = user.calculateBMR();
+            double dailyTarget = user.GetDailyCalorieNeeds();
+            double BMI = user.calculateBMI();
+            String bmiCat = user.getBMICategory();
+
+            outputArea.setText(String.format("Profile created for %s\nBMI: %.2f (%s)\nBMR: %.2f\nActivity: %d days/week \nDaily target: %.2f cal\nGoal: %.2f kg in %d weeks", name, BMI, bmiCat, BMR, days, dailyTarget, targetW, weeks));
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void populateFromUser(User u) {
+        if (u == null) return;
+        nameField.setText(u.getName());
+        ageSpinner.setValue(u.getAge());
+        genderBox.setSelectedItem(u.getGender());
+        weightField.setValue(u.getWeight());
+        heightField.setValue(u.getHeight());
+        activityDaysSpinner.setValue(u.getActivityDaysPerWeek());
+
+        double BMR = u.calculateBMR();
+        double dailyTarget = u.GetDailyCalorieNeeds();
+        double BMI = u.calculateBMI();
+        String bmiCat = u.getBMICategory();
+        outputArea.setText(String.format("Profile loaded for %s\nBMI: %.2f (%s)\nBMR: %.2f\nActivity: %d days/week \nDaily target: %.2f cal\nGoal: %.2f kg in %d weeks", u.getName(), BMI, bmiCat, BMR, u.getActivityDaysPerWeek(), dailyTarget, u.getGoal().getTargetWeight(), u.getGoal().getDurationInWeeks()));
+    }
+}

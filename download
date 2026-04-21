@@ -1,0 +1,70 @@
+package ui;
+
+import model.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+
+public class MainFrame extends JFrame {
+    private FoodDB foodDB = new FoodDB();
+    private DailyLog dailyLog = new DailyLog();
+    private User currentUser;
+
+    // keep references to panels so we can notify/refresh them
+    private ProfilePanel profilePanel;
+    private FoodDBPanel foodPanel;
+    private DailyLogPanel dailyPanel;
+    public MainFrame() {
+        setTitle("Nutrition & Workout Tracker");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900, 600);
+        setLocationRelativeTo(null);
+
+        JTabbedPane tabs = new JTabbedPane();
+
+        this.profilePanel = new ProfilePanel(this);
+        this.foodPanel = new FoodDBPanel(this);
+        this.dailyPanel = new DailyLogPanel(this);
+
+        tabs.addTab("Profile", this.profilePanel);
+        tabs.addTab("Food DB", this.foodPanel);
+        tabs.addTab("Daily Log", this.dailyPanel);
+
+        getContentPane().add(tabs, BorderLayout.CENTER);
+
+        // load persisted user and today's daily log
+        User u = DailyLogFileManager.loadUser();
+        if (u != null) {
+            setCurrentUser(u);
+            if (profilePanel != null) profilePanel.populateFromUser(u);
+        }
+        DailyLog dl = DailyLogFileManager.loadDailyLog(LocalDate.now());
+        if (dl != null) setDailyLog(dl);
+
+        // save on close
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                DailyLogFileManager.saveUser(currentUser);
+                DailyLogFileManager.saveDailyLog(dailyLog);
+            }
+        });
+    }
+
+    public FoodDB getFoodDB() { return foodDB; }
+    public DailyLog getDailyLog() { return dailyLog; }
+    public User getCurrentUser() { return currentUser; }
+    public void setCurrentUser(User u) { this.currentUser = u; }
+
+    // notify the daily log panel that data changed
+    public void refreshDailyLogPanel() {
+        if (dailyPanel != null) dailyPanel.refreshAll();
+    }
+
+    public void setDailyLog(DailyLog d) {
+        this.dailyLog = d;
+        refreshDailyLogPanel();
+    }
+}
