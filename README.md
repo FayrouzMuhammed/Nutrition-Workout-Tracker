@@ -47,12 +47,14 @@ o	Total calories burned
 o The user clicks “Save Logs” to store daily records  
 The user can also:  
 o	Clear ALL saved data using “Clear Logs”  
+
 ---
+
 ## Tech Stack
-•	Java 
-•	GUI: Java Swing 
+•	Java
+•	GUI: Java Swing
 •	IDE: Eclipse & VS 
-•	GUI: Java Swing 
+•	GUI: Java Swing
 ---
 ## UML Diagram
 
