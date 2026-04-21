@@ -59,5 +59,5 @@ o	Clear ALL saved data using “Clear Logs”
 ---
 
 ## UML Diagram
-![UML Diagram](UML.png)
+[View UML Diagram (PDF)](UML Diagram.pdf)
 
