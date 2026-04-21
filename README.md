@@ -15,7 +15,7 @@ The **Nutrition & Workout Tracker** is a health-focused application designed to 
 •	**Lightweight & Simple UI/Logic** – Easy to use for all users  
 
 ---
-## Program Flow
+## Core Features
 **1- User Profile Setup**  
 The user logs in and creates a personal profile by entering:  
 o	Name  
@@ -55,6 +55,9 @@ o	Clear ALL saved data using “Clear Logs”
 •	GUI: Java Swing
 •	IDE: Eclipse & VS 
 •	GUI: Java Swing
+
 ---
+
 ## UML Diagram
+![UML Diagram](UML.png)
 
