@@ -34,14 +34,17 @@ o	The user selects meals from the available food list
 o	Select food items from the food list  
 o	Enter the quantity/amount for each item  
 o	The system automatically calculates and records calorie intake    
+
 **Viewing Meal Details**  
-o	The system displays full nutritional information for the selected meal  
-** Workout Tracking**  
+o	The system displays full nutritional information for the selected meal 
+
+**Workout Tracking**  
 o	The system calculates and updates:  
 o	Total calories consumed  
 o	Total calories burned  
+
 **Saving and Managing Logs**  
-o	The user clicks “Save Logs” to store daily records  
+o The user clicks “Save Logs” to store daily records  
 The user can also:  
-o	Clear all saved data using “Clear Logs”  
+o	Clear ALL saved data using “Clear Logs”  
 
