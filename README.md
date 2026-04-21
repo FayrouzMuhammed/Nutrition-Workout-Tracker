@@ -16,32 +16,32 @@ The **Nutrition & Workout Tracker** is a health-focused application designed to 
 
 ---
 ## Program Flow
-**User Profile Setup**
-The user logs in and creates a personal profile by entering:
-o	Name
-o	Age
-o	Gender
-o	Weight
-o	Height
-o	Activity days per week
+**User Profile Setup**  
+The user logs in and creates a personal profile by entering:  
+o	Name  
+o	Age  
+o	Gender  
+o	Weight  
+o	Height  
+o	Activity days per week  
 
-**The user sets personal goals:**
-o	Target weight
-o	Duration (in weeks) to reach the target weight
+**The user sets personal goals:**  
+o	Target weight  
+o	Duration (in weeks) to reach the target weight  
 
-**Meal Tracking**
-o	The user selects meals from the available food list
-o	Select food items from the food list
-o	Enter the quantity/amount for each item
-o	The system automatically calculates and records calorie intake
-**Viewing Meal Details**
-o	The system displays full nutritional information for the selected meal
-** Workout Tracking**
-o	The system calculates and updates:
-o	Total calories consumed
-o	Total calories burned
-**Saving and Managing Logs**
-o	The user clicks “Save Logs” to store daily records
-The user can also:
-o	Clear all saved data using “Clear Logs”
+**Meal Tracking**  
+o	The user selects meals from the available food list  
+o	Select food items from the food list  
+o	Enter the quantity/amount for each item  
+o	The system automatically calculates and records calorie intake    
+**Viewing Meal Details**  
+o	The system displays full nutritional information for the selected meal  
+** Workout Tracking**  
+o	The system calculates and updates:  
+o	Total calories consumed  
+o	Total calories burned  
+**Saving and Managing Logs**  
+o	The user clicks “Save Logs” to store daily records  
+The user can also:  
+o	Clear all saved data using “Clear Logs”  
 
